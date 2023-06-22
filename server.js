@@ -102,7 +102,7 @@ app.get("/getUser/:userUuid", (req, res) => {
     //         res.send({ data: result[0][0], spentType: result[1], transferType: result[2] });
     //     }
     // });
-    const sqlInsert = `SELECT * FROM userlist WHERE userUuid = '${req.params.userUuid}'` ;
+    const sqlInsert = `SELECT * FROM userlist WHERE uuid = '${req.params.userUuid}'` ;
     db.query(sqlInsert, (err, result) => {
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
