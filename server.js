@@ -110,7 +110,7 @@ app.get("/getUser/:userUuid", (req, res) => {
     //         res.send({ data: result });
     //     }
     // });
-    res.send({ data: req.params.userUuid });
+    res.send({ data: req.params.userUuid, DBHost: process.env.DBHost, DBUser: process.env.DBUser, DBPassword: process.env.DBPassword, DBName: process.env.DBName });
 });
 
 app.post("/receiptUpload", (req, res) => {
