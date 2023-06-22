@@ -102,14 +102,15 @@ app.get("/getUser/:userUuid", (req, res) => {
     //         res.send({ data: result[0][0], spentType: result[1], transferType: result[2] });
     //     }
     // });
-    const sqlInsert = `SELECT * FROM userlist WHERE userUuid = '${req.params.userUuid}'` ;
-    db.query(sqlInsert, (err, result) => {
-        if (err) {
-            res.status(400).send({ message: err.sqlMessage });
-        } else {
-            res.send({ data: result });
-        }
-    });
+    // const sqlInsert = `SELECT * FROM userlist WHERE userUuid = '${req.params.userUuid}'` ;
+    // db.query(sqlInsert, (err, result) => {
+    //     if (err) {
+    //         res.status(400).send({ message: err.sqlMessage });
+    //     } else {
+    //         res.send({ data: result });
+    //     }
+    // });
+    res.send({ data: req.params.userUuid });
 });
 
 app.post("/receiptUpload", (req, res) => {
