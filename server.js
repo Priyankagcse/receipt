@@ -1,27 +1,24 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-app.use(bodyParser.urlencoded({extended: true}));
+const { app } = require('./config');
 
 app.get("/", (req, res) => {
-    // res.setHeader("Access.Control.Allow.Credentials", "true");
     res.send('Welcome');
 });
 
-app.get("/priya", (req, res) => {
-    // res.setHeader("Access.Control.Allow.Credentials", "true");
-    res.send('priya');
+app.get("/getUser", (req, res) => {
+    console.log('api-end');
+    // const uuid = uuidv4();
+    // userUuid = req.params.userUuid;
+    // const sqlInsert = `CALL receipthistory('${userUuid}', '${uuid}')`;
+    // db.query(sqlInsert, (err, result) => {
+    //     if (err) {
+    //         res.status(400).send({ message: err.sqlMessage });
+    //     } else {
+    //         res.send({ data: result[0][0], spentType: result[1], transferType: result[2] });
+    //     }
+    // });
+    res.send({ data: 'success' });
 });
 
-app.get("/priyanka", (req, res) => {
-    // res.setHeader("Access.Control.Allow.Credentials", "true");
-    res.send('priyanka');
-});
-
-app.listen(5000, () => {
-    console.log('Running on port 5000');
+app.listen(3002, () => {
+    console.log('Running on port 3002');
 });
