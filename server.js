@@ -92,25 +92,16 @@ app.put("/user", (req, res) => {
 });
 
 app.get("/getUser/:userUuid", (req, res) => {
-    // const uuid = uuidv4();
-    // userUuid = req.params.userUuid;
-    // const sqlInsert = `CALL receipthistory('${userUuid}', '${uuid}')`;
-    // db.query(sqlInsert, (err, result) => {
-    //     if (err) {
-    //         res.status(400).send({ message: err.sqlMessage });
-    //     } else {
-    //         res.send({ data: result[0][0], spentType: result[1], transferType: result[2] });
-    //     }
-    // });
-    const sqlInsert = `SELECT * FROM userlist WHERE uuid = '${req.params.userUuid}'` ;
+    const uuid = uuidv4();
+    userUuid = req.params.userUuid;
+    const sqlInsert = `CALL receipthistory('${userUuid}', '${uuid}')`;
     db.query(sqlInsert, (err, result) => {
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
         } else {
-            res.send({ data: result });
+            res.send({ data: result[0][0], spentType: result[1], transferType: result[2] });
         }
     });
-    // res.send({ data: req.params.userUuid, DBHost: process.env.DBHost, DBUser: process.env.DBUser, DBPassword: process.env.DBPassword, DBName: process.env.DBName });
 });
 
 app.post("/receiptUpload", (req, res) => {
