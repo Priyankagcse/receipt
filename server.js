@@ -1,9 +1,9 @@
 const { initialRefresh } = require('./common');
 const { app, db, uuidv4, envType } = require('./config');
 
-app.get("/", (req, res) => {
-    res.send('Welcome');
-});
+// app.get("/", (req, res) => {
+//     res.send('Welcome');
+// });
 
 let userUuid = '';
 
@@ -91,8 +91,7 @@ app.put("/user", (req, res) => {
     });
 });
 
-app.get("/getUser", (req, res) => {
-    console.log('api-end');
+app.get("/getUser/:userUuid", (req, res) => {
     // const uuid = uuidv4();
     // userUuid = req.params.userUuid;
     // const sqlInsert = `CALL receipthistory('${userUuid}', '${uuid}')`;
