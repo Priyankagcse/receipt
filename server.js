@@ -5,7 +5,7 @@ const { app, db, uuidv4, envType } = require('./config');
 //     res.send('Welcome');
 // });
 
-let userUuid = '';
+let userUuid = '123';
 
 function tableSpRefresh() {
     const spRefresh = require('./sp-index');
