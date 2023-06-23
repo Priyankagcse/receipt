@@ -95,6 +95,7 @@ app.get("/getUser/:userUuid", (req, res) => {
     const uuid = uuidv4();
     userUuid = req.params.userUuid;
     const sqlInsert = `CALL receipthistory('${userUuid}', '${uuid}')`;
+    console.log(sqlInsert);
     db.query(sqlInsert, (err, result) => {
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
