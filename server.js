@@ -198,10 +198,10 @@ app.get("/getReceiptRelatedMaster/:entity/:hdrUuid", (req, res) => {
     });
 });
 
-app.listen(process.env.PORT, () => {
-    console.log('Running on port 3002');
-});
-
-// app.listen(3002, () => {
+// app.listen(process.env.PORT, () => {
 //     console.log('Running on port 3002');
 // });
+
+app.listen(3002, () => {
+    console.log('Running on port 3002');
+});
