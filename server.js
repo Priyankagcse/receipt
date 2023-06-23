@@ -1,9 +1,9 @@
 const { initialRefresh } = require('./common');
 const { app, db, uuidv4, envType } = require('./config');
 
-app.get("/", (req, res) => {
-    res.send('Welcome');
-});
+// app.get("/", (req, res) => {
+//     res.send('Welcome');
+// });
 
 let userUuid = '';
 
