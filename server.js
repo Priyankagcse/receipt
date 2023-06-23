@@ -95,20 +95,19 @@ app.get("/getUser/:userUuid", (req, res) => {
     const uuid = uuidv4();
     userUuid = req.params.userUuid;
     const sqlInsert = `CALL receipthistory('${userUuid}', '${uuid}')`;
-    res.send({ data: sqlInsert });
-    // db.query(sqlInsert, (err, result) => {
-    //     if (err) {
-    //         res.status(400).send({ message: err.sqlMessage });
-    //     } else {
-    //         res.send({ data: result[0][0], spentType: result[1], transferType: result[2] });
-    //     }
-    // });
+    db.query(sqlInsert, (err, result) => {
+        if (err) {
+            res.status(400).send({ message: err.sqlMessage });
+        } else {
+            res.send({ data: result[0][0], spentType: result[1], transferType: result[2] });
+        }
+    });
 });
 
 app.post("/receiptUpload", (req, res) => {
     const uuid = uuidv4();
     const bodyData = { ...req.body, userUuid: userUuid, uuid: uuid };
-    const sqlInsert = "INSERT INTO receiptUpload SET ?";
+    const sqlInsert = "INSERT INTO receiptupload SET ?";
     db.query(sqlInsert, bodyData, (err, result) => { 
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
@@ -121,7 +120,7 @@ app.post("/receiptUpload", (req, res) => {
 app.post("/categoryType", (req, res) => {
     const uuid = uuidv4();
     const bodyData = { ...req.body, userUuid: userUuid, uuid: uuid };
-    const sqlInsert = "INSERT INTO categoryType SET ?";
+    const sqlInsert = "INSERT INTO categorytype SET ?";
     db.query(sqlInsert, bodyData, (err, result) => { 
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
@@ -134,7 +133,7 @@ app.post("/categoryType", (req, res) => {
 app.post("/bankDetails", (req, res) => {
     const uuid = uuidv4();
     const bodyData = { ...req.body, userUuid: userUuid, uuid: uuid };
-    const sqlInsert = "INSERT INTO bankDetails SET ?";
+    const sqlInsert = "INSERT INTO bankdetails SET ?";
     db.query(sqlInsert, bodyData, (err, result) => { 
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
@@ -145,7 +144,7 @@ app.post("/bankDetails", (req, res) => {
 });
 
 app.get("/receiptHistoryHeader", (req, res) => {
-    const sqlInsert = `SELECT * FROM receiptHistoryHeader WHERE userUuid = '${userUuid}'` ;
+    const sqlInsert = `SELECT * FROM receipthistoryheader WHERE userUuid = '${userUuid}'` ;
     db.query(sqlInsert, (err, result) => {
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
@@ -156,7 +155,7 @@ app.get("/receiptHistoryHeader", (req, res) => {
 });
 
 app.get("/monthlyExpense", (req, res) => {
-    const sqlInsert = `SELECT * FROM monthlyExpense WHERE userUuid = '${userUuid}' order by expenseMonth asc` ;
+    const sqlInsert = `SELECT * FROM monthlyexpense WHERE userUuid = '${userUuid}' order by expenseMonth asc` ;
     db.query(sqlInsert, (err, result) => {
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
@@ -169,7 +168,7 @@ app.get("/monthlyExpense", (req, res) => {
 app.post("/monthlyExpense", (req, res) => {
     const uuid = uuidv4();
     const bodyData = { ...req.body, userUuid: userUuid, uuid: uuid };
-    const sqlInsert = "INSERT INTO monthlyExpense SET ?";
+    const sqlInsert = "INSERT INTO monthlyexpense SET ?";
     db.query(sqlInsert, bodyData, (err, result) => { 
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
@@ -202,3 +201,7 @@ app.get("/getReceiptRelatedMaster/:entity/:hdrUuid", (req, res) => {
 app.listen(process.env.PORT, () => {
     console.log('Running on port 3002');
 });
+
+// app.listen(3002, () => {
+//     console.log('Running on port 3002');
+// });
