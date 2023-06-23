@@ -7,14 +7,14 @@ const { app, db, uuidv4, envType } = require('./config');
 
 let userUuid = '';
 
-// function tableSpRefresh() {
-//     const spRefresh = require('./sp-index');
-//     spRefresh(null, () => {
-//         const tableRefresh = require('./table-index');
-//         tableRefresh(null);
-//     });
-// }
-// tableSpRefresh();
+function tableSpRefresh() {
+    const spRefresh = require('./sp-index');
+    spRefresh(null, () => {
+        const tableRefresh = require('./table-index');
+        tableRefresh(null);
+    });
+}
+tableSpRefresh();
 
 function isNullOrUndefinedOrEmpty(value) {
     return value === undefined || value === null || value === '';
@@ -95,7 +95,6 @@ app.get("/getUser/:userUuid", (req, res) => {
     const uuid = uuidv4();
     userUuid = req.params.userUuid;
     const sqlInsert = `CALL receipthistory('${userUuid}', '${uuid}')`;
-    console.log(sqlInsert);
     db.query(sqlInsert, (err, result) => {
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
