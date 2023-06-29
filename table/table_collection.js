@@ -93,7 +93,8 @@ const receipthistoryline = {
         {field: 'amount', type: 'decimal(5,0)', null: 'DEFAULT NULL'},
         {field: 'description', type: 'longtext', null: ''},
         {field: 'image', type: 'longtext', null: ''},
-        {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'}
+        {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'},
+        {field: 'lastModifiedOn', type: 'datetime', null: 'DEFAULT NULL'}
     ]
 }
 
@@ -118,7 +119,8 @@ const receiptupload = {
         {field: 'amount', type: 'decimal(5,0)', null: 'DEFAULT NULL'},
         {field: 'description', type: 'longtext', null: ''},
         {field: 'image', type: 'longtext', null: ''},
-        {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'}
+        {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'},
+        {field: 'lastModifiedOn', type: 'datetime', null: 'DEFAULT NULL'}
     ]
 }
 
