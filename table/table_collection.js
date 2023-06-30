@@ -158,8 +158,8 @@ const versionupdate = {
     ]   
 }
 
-const transferType = {
-    name: 'transferType',
+const transfertype = {
+    name: 'transfertype',
     query: `PRIMARY KEY (uuid)`,
     queryList: [
         {field: 'userUuid', type: 'varchar(50)', null: 'DEFAULT NULL'},
@@ -181,7 +181,7 @@ const all_tables = [
     spenttype,
     userlist,
     versionupdate,
-    transferType
+    transfertype
 ]
 
 module.exports = all_tables
