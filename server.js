@@ -10,8 +10,8 @@ let userUuid = '';
 function tableSpRefresh() {
     const spRefresh = require('./sp-index');
     spRefresh(null, () => {
-        const tableRefresh = require('./table-index');
-        tableRefresh(null);
+        // const tableRefresh = require('./table-index');
+        // tableRefresh(null);
     });
 }
 tableSpRefresh();
