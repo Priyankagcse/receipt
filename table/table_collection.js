@@ -145,8 +145,7 @@ const userlist = {
         {field: 'phoneNumber', type: 'varchar(15)', null: 'DEFAULT NULL'},
         {field: 'email', type: 'varchar(30)', null: 'DEFAULT NULL'},
         {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'},
-        {field: 'lastModifiedOn', type: 'datetime', null: 'DEFAULT NULL'},
-        {field: 'lastModifiedOn1', type: 'datetime', null: 'DEFAULT NULL'}
+        {field: 'lastModifiedOn', type: 'datetime', null: 'DEFAULT NULL'}
     ]
 }
 
@@ -167,16 +166,21 @@ const transfertype = {
         {field: 'uuid', type: 'varchar(50)', null: 'NOT NULL'},
         {field: 'transferId', type: 'varchar(15)', null: 'DEFAULT NULL'},
         {field: 'transferType', type: 'varchar(15)', null: 'DEFAULT NULL'},
-        {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'}
+        {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'},
+        {field: 'createdOn1', type: 'datetime', null: 'DEFAULT NULL'},
     ]   
 }
 
-const check = {
-    name: 'check',
+const transfertype1 = {
+    name: 'transfertype1',
     query: `PRIMARY KEY (uuid)`,
     queryList: [
-        {field: 'check', type: 'varchar(50)', null: 'DEFAULT NULL'},
-        {field: 'check1', type: 'varchar(50)', null: 'NOT NULL'}
+        {field: 'userUuid', type: 'varchar(50)', null: 'DEFAULT NULL'},
+        {field: 'uuid1', type: 'varchar(50)', null: 'NOT NULL'},
+        {field: 'transferId', type: 'varchar(15)', null: 'DEFAULT NULL'},
+        {field: 'transferType', type: 'varchar(15)', null: 'DEFAULT NULL'},
+        {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'},
+        {field: 'createdOn1', type: 'datetime', null: 'DEFAULT NULL'},
     ]   
 }
 
@@ -192,7 +196,7 @@ const all_tables = [
     userlist,
     versionupdate,
     transfertype,
-    check
+    transfertype1
 ]
 
 module.exports = all_tables
