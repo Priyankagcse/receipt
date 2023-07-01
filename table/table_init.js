@@ -12,6 +12,7 @@ class table_refresh {
                     db.query(sqlInsert, (err, result) => {
                         if (result[0][0]['ALTER'] === "ALTER") {
                             const sqlColumns = `SHOW COLUMNS FROM ${table.name}`;
+                            console.log(db);
                             db.query(sqlColumns, (columnsErr, columnsResult) => {
                                 if (columnsErr) {
                                     console.log('if');
