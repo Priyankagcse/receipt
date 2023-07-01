@@ -5,18 +5,17 @@ class table_refresh {
     constructor() {
         this.init = this.init.bind(this);
         this.modify = this.modify.bind(this);
-        this.refresh = (res = null, callBack) => {
+        this.refresh = async(res = null, callBack) => {
             try {
                 for (let table of all_tables) {
                     const sqlInsert = `CALL tableCheck('${DBName}', '${table.name}')`;
-                    db.query(sqlInsert, (err, result) => {
+                    await db.query(sqlInsert, async(err, result) => {
                         if (result[0][0]['ALTER'] === "ALTER") {
                             const sqlColumns = `SHOW COLUMNS FROM ${table.name}`;                            
-                            db.query(sqlColumns, (columnsErr, columnsResult) => {
+                            await db.query(sqlColumns, async(columnsErr, columnsResult) => {
                                 if (columnsErr) {
                                     console.log('if');
                                     console.log('Columns ' + columnsErr.sqlMessage);
-                                    throw columnsErr;
                                 } else {
                                     console.log('else');
                                     let fieldListStr = '';
@@ -36,16 +35,36 @@ class table_refresh {
                                     if (fieldListStr) {
                                         const sqlAlter = `ALTER TABLE ${table.name} ADD (${fieldListStr})`;
                                         console.log(sqlAlter);
-                                        db.query(sqlAlter, (alterErr, alterResult) => {
+                                        await db.query(sqlAlter, async(alterErr, alterResult) => {
                                             if (alterErr) {
                                                 console.log(`${sqlAlter} ${alterErr.sqlMessage}`);
                                             } else {
-                                                this.modify(table.name, modifyListStr);
+                                                if (modifyListStr) {
+                                                    const sqlModify = `ALTER TABLE ${table.name} ${modifyListStr}`;
+                                                    await db.query(sqlModify, (modifyErr, modifyResult) => {
+                                                        if (modifyErr) {
+                                                            console.log(`${sqlModify} ${modifyErr.sqlMessage}`);
+                                                        } else {
+                                                            //
+                                                        }
+                                                    });
+                                                }
+                                                // this.modify(table.name, modifyListStr);
                                             }
                                         });
                                     } else {
                                         console.log('modify');
-                                        this.modify(table.name, modifyListStr);
+                                        // this.modify(table.name, modifyListStr);
+                                        if (modifyListStr) {
+                                            const sqlModify = `ALTER TABLE ${table.name} ${modifyListStr}`;
+                                            await db.query(sqlModify, (modifyErr, modifyResult) => {
+                                                if (modifyErr) {
+                                                    console.log(`${sqlModify} ${modifyErr.sqlMessage}`);
+                                                } else {
+                                                    //
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                             });
@@ -59,7 +78,7 @@ class table_refresh {
                                 queryFormat += `, ${table.query}`;
                             }
                             const sqlCreate = `CREATE TABLE ${table.name} (${queryFormat});`;
-                            db.query(sqlCreate, (createErr, createResult) => {
+                            await db.query(sqlCreate, (createErr, createResult) => {
                                 if (createErr) {
                                     console.log('Create ' + createErr.sqlMessage);
                                 } else {
@@ -78,16 +97,16 @@ class table_refresh {
     }
 
     modify(tableName, modifyListStr) {
-        if (modifyListStr) {
-            const sqlModify = `ALTER TABLE ${tableName} ${modifyListStr}`;
-            db.query(sqlModify, (modifyErr, modifyResult) => {
-                if (modifyErr) {
-                    console.log(`${sqlModify} ${modifyErr.sqlMessage}`);
-                } else {
-                    //
-                }
-            });
-        }
+        // if (modifyListStr) {
+        //     const sqlModify = `ALTER TABLE ${tableName} ${modifyListStr}`;
+        //     await db.query(sqlModify, (modifyErr, modifyResult) => {
+        //         if (modifyErr) {
+        //             console.log(`${sqlModify} ${modifyErr.sqlMessage}`);
+        //         } else {
+        //             //
+        //         }
+        //     });
+        // }
     }
 
     init(response, callBack) {
