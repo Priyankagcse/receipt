@@ -11,7 +11,6 @@ class table_refresh {
                     const sqlInsert = `CALL tableCheck('${DBName}', '${table.name}')`;
                     await db.query(sqlInsert, async(err, result) => {
                         if (result[0][0]['ALTER'] === "ALTER") {
-                            console.log(result[0][0]['ALTER']);
                             const sqlColumns = `SHOW COLUMNS FROM ${table.name}`;                            
                             await db.query(sqlColumns, async(columnsErr, columnsResult) => {
                                 if (columnsErr) {

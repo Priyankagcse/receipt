@@ -145,7 +145,8 @@ const userlist = {
         {field: 'phoneNumber', type: 'varchar(15)', null: 'DEFAULT NULL'},
         {field: 'email', type: 'varchar(30)', null: 'DEFAULT NULL'},
         {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'},
-        {field: 'lastModifiedOn', type: 'datetime', null: 'DEFAULT NULL'}
+        {field: 'lastModifiedOn', type: 'datetime', null: 'DEFAULT NULL'},
+        {field: 'lastModifiedOn1', type: 'datetime', null: 'DEFAULT NULL'}
     ]
 }
 
@@ -170,6 +171,15 @@ const transfertype = {
     ]   
 }
 
+const check = {
+    name: 'check',
+    query: `PRIMARY KEY (uuid)`,
+    queryList: [
+        {field: 'check', type: 'varchar(50)', null: 'DEFAULT NULL'},
+        {field: 'check1', type: 'varchar(50)', null: 'NOT NULL'}
+    ]   
+}
+
 const all_tables = [
     bankdetails,
     categorytype,
@@ -181,7 +191,8 @@ const all_tables = [
     spenttype,
     userlist,
     versionupdate,
-    transfertype
+    transfertype,
+    check
 ]
 
 module.exports = all_tables
