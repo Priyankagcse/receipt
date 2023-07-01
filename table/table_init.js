@@ -12,11 +12,12 @@ class table_refresh {
                     db.query(sqlInsert, (err, result) => {
                         if (result[0][0]['ALTER'] === "ALTER") {
                             const sqlColumns = `SHOW COLUMNS FROM ${table.name}`;
-                            console.log(sqlColumns);
                             db.query(sqlColumns, (columnsErr, columnsResult) => {
                                 if (columnsErr) {
+                                    console.log('if');
                                     console.log('Columns ' + columnsErr.sqlMessage);
                                 } else {
+                                    console.log('else');
                                     let fieldListStr = '';
                                     let modifyListStr = '';
                                     for (var j = 0; j < table.queryList.length; j++) {
