@@ -2,9 +2,8 @@ const TABLECHECK = {
     name: 'TABLECHECK',
     query: `CREATE PROCEDURE tableCheck(dbName varchar(50), tableName varchar(50))
             BEGIN
-                CALL sys.table_exists(dbName, tableName, @exists);
-                SET @ext = (SELECT @exists);
-                IF NOT @ext IS NULL AND @ext <> '' THEN
+                SET @ext = (SELECT EXISTS (SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA LIKE dbName AND TABLE_NAME = tableName));
+                IF @ext = 1 THEN
                     select 'ALTER';
                 ELSE
                     select 'CREATE';
