@@ -46,8 +46,6 @@ const GETRECEIPTRELATEDMASTER = {
                     select categoryTypeName as name, sum(amount) as value, transferId from receipthistoryline rh where rh.useruuid = useruuid and rh.hdrUuid = hdrUuid group by categoryUuid;
                     select bankName as name, sum(amount) as value, transferId from receipthistoryline rh where rh.useruuid = useruuid and rh.hdrUuid = hdrUuid group by bankUuid;
                     select spentType as name, sum(amount) as value, transferId from receipthistoryline rh where rh.useruuid = useruuid and rh.hdrUuid = hdrUuid group by spentTypeUuid;
-                ELSEIF entity = 'check' THEN
-                    select * from monthlyexpense me where me.userUuid = userUuid;
                 END IF;
             END`
 }
