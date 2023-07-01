@@ -11,13 +11,12 @@ class table_refresh {
                     const sqlInsert = `CALL tableCheck('${DBName}', '${table.name}')`;
                     await db.query(sqlInsert, async(err, result) => {
                         if (result[0][0]['ALTER'] === "ALTER") {
+                            console.log(result[0][0]['ALTER']);
                             const sqlColumns = `SHOW COLUMNS FROM ${table.name}`;                            
                             await db.query(sqlColumns, async(columnsErr, columnsResult) => {
                                 if (columnsErr) {
-                                    console.log('if');
-                                    console.log('Columns ' + columnsErr.sqlMessage);
+                                    // console.log('Columns ' + columnsErr.sqlMessage);
                                 } else {
-                                    console.log('else');
                                     let fieldListStr = '';
                                     let modifyListStr = '';
                                     for (var j = 0; j < table.queryList.length; j++) {
@@ -34,37 +33,15 @@ class table_refresh {
                                     modifyListStr = modifyListStr.replace(/.$/,"");
                                     if (fieldListStr) {
                                         const sqlAlter = `ALTER TABLE ${table.name} ADD (${fieldListStr})`;
-                                        console.log(sqlAlter);
                                         await db.query(sqlAlter, async(alterErr, alterResult) => {
                                             if (alterErr) {
-                                                console.log(`${sqlAlter} ${alterErr.sqlMessage}`);
+                                                // console.log(`${sqlAlter} ${alterErr.sqlMessage}`);
                                             } else {
-                                                if (modifyListStr) {
-                                                    const sqlModify = `ALTER TABLE ${table.name} ${modifyListStr}`;
-                                                    await db.query(sqlModify, (modifyErr, modifyResult) => {
-                                                        if (modifyErr) {
-                                                            console.log(`${sqlModify} ${modifyErr.sqlMessage}`);
-                                                        } else {
-                                                            //
-                                                        }
-                                                    });
-                                                }
-                                                // this.modify(table.name, modifyListStr);
+                                                this.modify(table.name, modifyListStr);
                                             }
                                         });
                                     } else {
-                                        console.log('modify');
-                                        // this.modify(table.name, modifyListStr);
-                                        if (modifyListStr) {
-                                            const sqlModify = `ALTER TABLE ${table.name} ${modifyListStr}`;
-                                            await db.query(sqlModify, (modifyErr, modifyResult) => {
-                                                if (modifyErr) {
-                                                    console.log(`${sqlModify} ${modifyErr.sqlMessage}`);
-                                                } else {
-                                                    //
-                                                }
-                                            });
-                                        }
+                                        this.modify(table.name, modifyListStr);
                                     }
                                 }
                             });
@@ -80,7 +57,7 @@ class table_refresh {
                             const sqlCreate = `CREATE TABLE ${table.name} (${queryFormat});`;
                             await db.query(sqlCreate, (createErr, createResult) => {
                                 if (createErr) {
-                                    console.log('Create ' + createErr.sqlMessage);
+                                    // console.log('Create ' + createErr.sqlMessage);
                                 } else {
                                     //
                                 }
@@ -96,17 +73,17 @@ class table_refresh {
         }
     }
 
-    modify(tableName, modifyListStr) {
-        // if (modifyListStr) {
-        //     const sqlModify = `ALTER TABLE ${tableName} ${modifyListStr}`;
-        //     await db.query(sqlModify, (modifyErr, modifyResult) => {
-        //         if (modifyErr) {
-        //             console.log(`${sqlModify} ${modifyErr.sqlMessage}`);
-        //         } else {
-        //             //
-        //         }
-        //     });
-        // }
+    async modify(tableName, modifyListStr) {
+        if (modifyListStr) {
+            const sqlModify = `ALTER TABLE ${tableName} ${modifyListStr}`;
+            await db.query(sqlModify, (modifyErr, modifyResult) => {
+                if (modifyErr) {
+                    console.log(`${sqlModify} ${modifyErr.sqlMessage}`);
+                } else {
+                    //
+                }
+            });
+        }
     }
 
     init(response, callBack) {
