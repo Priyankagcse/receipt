@@ -10,7 +10,7 @@ class table_refresh {
                 for (let table of all_tables) {
                     const sqlInsert = `CALL tableCheck('${DBName}', '${table.name}')`;
                     db.query(sqlInsert, (err, result) => {
-                        console.log(result);
+                        console.log(result[0][0]['ALTER']);
                         if (result[0][0]['ALTER'] === "ALTER") {
                             const sqlColumns = `SHOW COLUMNS FROM ${table.name}`;
                             db.query(sqlColumns, (columnsErr, columnsResult) => {
