@@ -10,9 +10,9 @@ class table_refresh {
                 for (let table of all_tables) {
                     const sqlInsert = `CALL tableCheck('${DBName}', '${table.name}')`;
                     db.query(sqlInsert, (err, result) => {
-                        console.log(result[0][0]['ALTER']);
                         if (result[0][0]['ALTER'] === "ALTER") {
                             const sqlColumns = `SHOW COLUMNS FROM ${table.name}`;
+                            console.log(sqlColumns);
                             db.query(sqlColumns, (columnsErr, columnsResult) => {
                                 if (columnsErr) {
                                     console.log('Columns ' + columnsErr.sqlMessage);
@@ -33,6 +33,7 @@ class table_refresh {
                                     modifyListStr = modifyListStr.replace(/.$/,"");
                                     if (fieldListStr) {
                                         const sqlAlter = `ALTER TABLE ${table.name} ADD (${fieldListStr})`;
+                                        console.log(sqlAlter);
                                         db.query(sqlAlter, (alterErr, alterResult) => {
                                             if (alterErr) {
                                                 console.log(`${sqlAlter} ${alterErr.sqlMessage}`);
@@ -41,6 +42,7 @@ class table_refresh {
                                             }
                                         });
                                     } else {
+                                        console.log('modify');
                                         this.modify(table.name, modifyListStr);
                                     }
                                 }
