@@ -154,7 +154,8 @@ const versionupdate = {
     query: `PRIMARY KEY (version)`,
     queryList: [
         {field: 'version', type: 'decimal(10,0)', null: 'NOT NULL'},
-        {field: 'lastModifiedOn', type: 'datetime', null: 'DEFAULT NULL'}
+        {field: 'lastModifiedOn', type: 'datetime', null: 'DEFAULT NULL'},
+        {field: 'lastModifiedOn1', type: 'datetime', null: 'DEFAULT NULL'},
     ]   
 }
 
@@ -166,7 +167,8 @@ const transfertype = {
         {field: 'uuid', type: 'varchar(50)', null: 'NOT NULL'},
         {field: 'transferId', type: 'varchar(15)', null: 'DEFAULT NULL'},
         {field: 'transferType', type: 'varchar(15)', null: 'DEFAULT NULL'},
-        {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'}
+        {field: 'createdOn', type: 'varchar(15)', null: 'DEFAULT NULL'},
+        {field: 'createdOn1', type: 'datetime', null: 'DEFAULT NULL'},
     ]   
 }
 
