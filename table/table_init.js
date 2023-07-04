@@ -1,70 +1,44 @@
 const { db, DBName } = require('../config');
 const all_tables = require("./table_collection");
+const Sp = require('../sprocs/sprocs_class/sproc_base');
 
 class table_refresh {
     constructor() {
+        this.connection = new Sp();
         this.init = this.init.bind(this);
-        this.modify = this.modify.bind(this);
         this.refresh = async(res = null, callBack) => {
             try {
                 for (let table of all_tables) {
-                    const sqlInsert = `CALL tableCheck('${DBName}', '${table.name}')`;
-                    await db.query(sqlInsert, async(err, result) => {
-                        if (result[0][0]['ALTER'] === "ALTER") {
-                            const sqlColumns = `SHOW COLUMNS FROM ${table.name}`;                            
-                            await db.query(sqlColumns, async(columnsErr, columnsResult) => {
-                                if (columnsErr) {
-                                    // console.log('Columns ' + columnsErr.sqlMessage);
-                                } else {
-                                    let fieldListStr = '';
-                                    let modifyListStr = '';
-                                    for (var j = 0; j < table.queryList.length; j++) {
-                                        let filterData = columnsResult.filter((cols) => cols.Field === table.queryList[j]['field']);
-                                        if (filterData.length === 0) {
-                                            fieldListStr += `${table.queryList[j]['field']} ${table.queryList[j]['type']} ${table.queryList[j]['null']},`;
-                                        } else {
-                                            if (filterData[0]['Type'] !== table.queryList[j]['type']) {
-                                                modifyListStr += `MODIFY COLUMN ${table.queryList[j]['field']} ${table.queryList[j]['type']},`;
-                                            }
-                                        }
-                                    }
-                                    fieldListStr = fieldListStr.replace(/.$/,"");
-                                    modifyListStr = modifyListStr.replace(/.$/,"");
-                                    if (fieldListStr) {
-                                        const sqlAlter = `ALTER TABLE ${table.name} ADD (${fieldListStr})`;
-                                        console.log(sqlAlter);
-                                        await db.query(sqlAlter, async(alterErr, alterResult) => {
-                                            if (alterErr) {
-                                                // console.log(`${sqlAlter} ${alterErr.sqlMessage}`);
-                                            } else {
-                                                if (modifyListStr) {
-                                                    const sqlModify = `ALTER TABLE ${table.name} ${modifyListStr}`;
-                                                    console.log(sqlModify);
-                                                    await db.query(sqlModify, (modifyErr, modifyResult) => {
-                                                        if (modifyErr) {
-                                                            // console.log(`${sqlModify} ${modifyErr.sqlMessage}`);
-                                                        } else {
-                                                            //
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        });
+                    const sqlInsert = await this.connection.connection_query(`CALL tableCheck('${DBName}', '${table.name}')`);
+                    if (sqlInsert) {
+                        if (sqlInsert[0][0]['ALTER'] === "ALTER") {
+                            const sqlColumns = await this.connection.connection_query(`SHOW COLUMNS FROM ${table.name}`);
+                            if (sqlColumns.length) {
+                                let fieldListStr = '';
+                                let modifyListStr = '';
+                                for (var j = 0; j < table.queryList.length; j++) {
+                                    let filterData = sqlColumns.filter((cols) => cols.Field === table.queryList[j]['field']);
+                                    if (filterData.length === 0) {
+                                        fieldListStr += `${table.queryList[j]['field']} ${table.queryList[j]['type']} ${table.queryList[j]['null']},`;
                                     } else {
-                                        if (modifyListStr) {
-                                            const sqlModify = `ALTER TABLE ${table.name} ${modifyListStr}`;
-                                            console.log(sqlModify);
-                                            await db.query(sqlModify, (modifyErr, modifyResult) => {
-                                                if (modifyErr) {
-                                                    // console.log(`${sqlModify} ${modifyErr.sqlMessage}`);
-                                                } else {
-                                                    //
-                                                }
-                                            });
+                                        if (filterData[0]['Type'] !== table.queryList[j]['type']) {
+                                            modifyListStr += `MODIFY COLUMN ${table.queryList[j]['field']} ${table.queryList[j]['type']},`;
                                         }
                                     }
                                 }
-                            });
+                                fieldListStr = fieldListStr.replace(/.$/,"");
+                                modifyListStr = modifyListStr.replace(/.$/,"");
+                                if (fieldListStr) {
+                                    await this.connection.connection_query(`ALTER TABLE ${table.name} ADD (${fieldListStr})`);
+                                    if (modifyListStr) {
+                                        await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
+                                    }
+                                } else {
+                                    if (modifyListStr) {
+                                        await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
+                                    }
+                                }
+                            }
                         } else {
                             let fieldList = table.queryList.map((line) => {
                                 return `${line.field} ${line.type} ${line.null}`;
@@ -74,17 +48,9 @@ class table_refresh {
                             if (table.query) {
                                 queryFormat += `, ${table.query}`;
                             }
-                            const sqlCreate = `CREATE TABLE ${table.name} (${queryFormat});`;
-                            console.log(sqlCreate);
-                            await db.query(sqlCreate, (createErr, createResult) => {
-                                if (createErr) {
-                                    // console.log('Create ' + createErr.sqlMessage);
-                                } else {
-                                    //
-                                }
-                            });
+                            await this.connection.connection_query(`CREATE TABLE ${table.name} (${queryFormat});`);
                         }
-                    });
+                    }
                 }
             } catch(err) {
                 //
@@ -93,19 +59,6 @@ class table_refresh {
             }
         }
     }
-
-    // async modify(tableName, modifyListStr) {
-    //     if (modifyListStr) {
-    //         const sqlModify = `ALTER TABLE ${tableName} ${modifyListStr}`;
-    //         await db.query(sqlModify, (modifyErr, modifyResult) => {
-    //             if (modifyErr) {
-    //                 console.log(`${sqlModify} ${modifyErr.sqlMessage}`);
-    //             } else {
-    //                 //
-    //             }
-    //         });
-    //     }
-    // }
 
     init(response, callBack) {
         return this.refresh(response, callBack);

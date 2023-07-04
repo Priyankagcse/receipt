@@ -163,11 +163,11 @@ const transfertype = {
     name: 'transfertype',
     query: `PRIMARY KEY (uuid)`,
     queryList: [
-        {field: 'userUuid', type: 'varchar(50)', null: 'DEFAULT NULL'},
+        {field: 'userUuid', type: 'varchar(70)', null: 'DEFAULT NULL'},
         {field: 'uuid', type: 'varchar(50)', null: 'NOT NULL'},
         {field: 'transferId', type: 'varchar(15)', null: 'DEFAULT NULL'},
         {field: 'transferType', type: 'varchar(15)', null: 'DEFAULT NULL'},
-        {field: 'createdOn', type: 'varchar(15)', null: 'DEFAULT NULL'},
+        {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'},
         {field: 'createdOn1', type: 'datetime', null: 'DEFAULT NULL'},
     ]   
 }
