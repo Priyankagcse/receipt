@@ -120,7 +120,7 @@ app.post("/receiptUpload", (req, res) => {
 app.put("/receiptUpload", (req, res) => {
     const uuid = req.body.uuid;
     const reqObj = req.body;
-    const sqlInsert = "UPDATE receiptUpload SET billDate = ?, monthlyExpenseTemplate = ?, monthlyExpenseTemplateUuid = ?, categoryUuid = ?, categoryTypeName = ?, bankUuid = ?, bankName = ?, spentTypeUuid = ?, spentType = ?, amount = ?, description = ?, image = ?, transferType = ?, transferTypeUuid = ?, transferId = ? WHERE uuid = ?";    
+    const sqlInsert = "UPDATE receiptupload SET billDate = ?, monthlyExpenseTemplate = ?, monthlyExpenseTemplateUuid = ?, categoryUuid = ?, categoryTypeName = ?, bankUuid = ?, bankName = ?, spentTypeUuid = ?, spentType = ?, amount = ?, description = ?, image = ?, transferType = ?, transferTypeUuid = ?, transferId = ? WHERE uuid = ?";    
     db.query(sqlInsert, [reqObj.billDate, reqObj.monthlyExpenseTemplate, reqObj.monthlyExpenseTemplateUuid, reqObj.categoryUuid, reqObj.categoryTypeName, reqObj.bankUuid, reqObj.bankName, reqObj.spentTypeUuid, reqObj.spentType, reqObj.amount, reqObj.description, reqObj.image, reqObj.transferType, reqObj.transferTypeUuid, reqObj.transferId, uuid], (err, result) => {
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
@@ -194,7 +194,7 @@ app.post("/monthlyExpense", (req, res) => {
 app.put("/monthlyExpense", (req, res) => {
     const uuid = req.body.uuid;
     const reqObj = req.body;
-    const sqlInsert = "UPDATE monthlyExpense SET totalAmount = ?, expenseAmount = ?, remainingAmount = ?, categoryTypes = ?, bankNames = ?, lastModifiedOn = ?, expenseMonth = ? WHERE uuid = ?";
+    const sqlInsert = "UPDATE monthlyexpense SET totalAmount = ?, expenseAmount = ?, remainingAmount = ?, categoryTypes = ?, bankNames = ?, lastModifiedOn = ?, expenseMonth = ? WHERE uuid = ?";
     db.query(sqlInsert, [reqObj.totalAmount, reqObj.expenseAmount, reqObj.remainingAmount, reqObj.categoryTypes, reqObj.bankNames, reqObj.lastModifiedOn, reqObj.expenseMonth, uuid], (err, result) => {
         if (err) {
             res.status(400).send({ message: err.sqlMessage });
