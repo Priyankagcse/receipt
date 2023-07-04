@@ -7,12 +7,9 @@ const { app, db, uuidv4, envType } = require('./config');
 
 let userUuid = '';
 
-console.log('initial');
 function tableSpRefresh() {
-    console.log('spbefore');
     const spRefresh = require('./sp-index');
     spRefresh(null, () => {
-        console.log('tablebefore');
         const tableRefresh = require('./table-index');
         tableRefresh(null);
     });
