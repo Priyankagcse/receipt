@@ -90,6 +90,7 @@ class table_refresh {
     }
 
     init(response, callBack) {
+        console.log('table');
         return this.refresh(response, callBack);
     }
 }
