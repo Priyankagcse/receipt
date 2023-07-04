@@ -170,6 +170,18 @@ const transfertype = {
     ]   
 }
 
+const transfertypes = {
+    name: 'transfertype',
+    query: `PRIMARY KEY (uuid)`,
+    queryList: [
+        {field: 'userUuid', type: 'varchar(50)', null: 'DEFAULT NULL'},
+        {field: 'uuid', type: 'varchar(50)', null: 'NOT NULL'},
+        {field: 'transferId', type: 'varchar(15)', null: 'DEFAULT NULL'},
+        {field: 'transferType', type: 'varchar(15)', null: 'DEFAULT NULL'},
+        {field: 'createdOn', type: 'datetime', null: 'DEFAULT NULL'}
+    ]   
+}
+
 const all_tables = [
     bankdetails,
     categorytype,
@@ -181,7 +193,8 @@ const all_tables = [
     spenttype,
     userlist,
     versionupdate,
-    transfertype
+    transfertype,
+    transfertypes
 ]
 
 module.exports = all_tables
