@@ -171,7 +171,7 @@ const transfertype = {
 }
 
 const transfertypes = {
-    name: 'transfertype',
+    name: 'transfertypes',
     query: `PRIMARY KEY (uuid)`,
     queryList: [
         {field: 'userUuid', type: 'varchar(50)', null: 'DEFAULT NULL'},
