@@ -9,9 +9,11 @@ class table_refresh {
         this.refresh = async(res = null, callBack) => {
             try {
                 for (let table of all_tables) {
+                    console.log(`CALL tableCheck('${DBName}', '${table.name}')`);
                     const sqlInsert = await this.connection.connection_query(`CALL tableCheck('${DBName}', '${table.name}')`);
                     if (sqlInsert) {
                         if (sqlInsert[0][0]['ALTER'] === "ALTER") {
+                            console.log(`SHOW COLUMNS FROM ${table.name}`);
                             const sqlColumns = await this.connection.connection_query(`SHOW COLUMNS FROM ${table.name}`);
                             if (sqlColumns.length) {
                                 let fieldListStr = '';
@@ -30,15 +32,24 @@ class table_refresh {
                                 modifyListStr = modifyListStr.replace(/.$/,"");
                                 if (fieldListStr) {
                                     console.log(`ALTER TABLE ${table.name} ADD (${fieldListStr})`);
-                                    await this.connection.connection_query(`ALTER TABLE ${table.name} ADD (${fieldListStr})`);
+                                    const sqlAlter = await this.connection.connection_query(`ALTER TABLE ${table.name} ADD (${fieldListStr})`);
+                                    if (sqlAlter) {
+                                        //
+                                    }
                                     if (modifyListStr) {
                                         console.log(`ALTER TABLE ${table.name} ${modifyListStr}`);
-                                        await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
+                                        const sqlModify = await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
+                                        if (sqlModify) {
+                                            //
+                                        }
                                     }
                                 } else {
                                     if (modifyListStr) {
                                         console.log(`ALTER TABLE ${table.name} ${modifyListStr}`);
-                                        await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
+                                        const sqlModify = await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
+                                        if (sqlModify) {
+                                            //
+                                        }
                                     }
                                 }
                             }
@@ -52,7 +63,10 @@ class table_refresh {
                                 queryFormat += `, ${table.query}`;
                             }
                             console.log(`CREATE TABLE ${table.name} (${queryFormat});`);
-                            await this.connection.connection_query(`CREATE TABLE ${table.name} (${queryFormat});`);
+                            const sqlCreate = await this.connection.connection_query(`CREATE TABLE ${table.name} (${queryFormat});`);
+                            if (sqlCreate) {
+                                //
+                            }
                         }
                     }
                 }
@@ -65,6 +79,7 @@ class table_refresh {
     }
 
     init(response, callBack) {
+        console.log('table');
         return this.refresh(response, callBack);
     }
 }

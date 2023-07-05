@@ -29,6 +29,7 @@ class Stored_procedure_refresh {
         }
     }
     init(response, callBack) {
+        console.log('sp');
         return this.refresh(response, callBack);
     }
 }
