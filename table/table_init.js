@@ -8,6 +8,7 @@ class table_refresh {
         this.init = this.init.bind(this);
         this.refresh = async(res = null, callBack) => {
             try {
+                console.log(all_tables);
                 for (let table of all_tables) {
                     console.log(`CALL tableCheck('${DBName}', '${table.name}')`);
                     const sqlInsert = await this.connection.connection_query(`CALL tableCheck('${DBName}', '${table.name}')`);
