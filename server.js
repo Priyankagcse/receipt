@@ -7,20 +7,12 @@ const { app, db, uuidv4, envType } = require('./config');
 
 let userUuid = '';
 
-console.log('start');
 function tableSpRefresh() {
-    console.log('spbefore');
     const spRefresh = require('./sp-index');
     spRefresh(null, () => {
-        console.log('tablebefore');
         const tableRefresh = require('./table-index');
-        tableRefresh(null, () => {
-            app.listen(process.env.PORT, () => {
-                console.log('Running on port 3002');
-            });
-        });
+        tableRefresh(null);
     });
-    console.log('end');
 }
 tableSpRefresh();
 
@@ -230,6 +222,10 @@ app.get("/getReceiptRelatedMaster/:entity/:hdrUuid", (req, res) => {
             }
         }
     });
+});
+
+app.listen(process.env.PORT, () => {
+    console.log('Running on port 3002');
 });
 
 // app.listen(3002, () => {

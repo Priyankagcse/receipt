@@ -11,9 +11,7 @@ class table_refresh {
             try {
                 for (let table of this.tables) {
                     const sqlInsert = await this.connection.connection_query(`SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA LIKE '${DBName}' AND TABLE_NAME = '${table.name}'`);
-                    console.log(sqlInsert.length);
                     if (sqlInsert.length) {
-                        console.log(`SHOW COLUMNS FROM ${table.name}`);
                         const sqlColumns = await this.connection.connection_query(`SHOW COLUMNS FROM ${table.name}`);
                         if (sqlColumns.length) {
                             let fieldListStr = '';
@@ -31,15 +29,12 @@ class table_refresh {
                             fieldListStr = fieldListStr.replace(/.$/,"");
                             modifyListStr = modifyListStr.replace(/.$/,"");
                             if (fieldListStr) {
-                                console.log(`ALTER TABLE ${table.name} ADD (${fieldListStr})`);
                                 await this.connection.connection_query(`ALTER TABLE ${table.name} ADD (${fieldListStr})`);
                                 if (modifyListStr) {
-                                    console.log(`ALTER TABLE ${table.name} ${modifyListStr}`);
                                     await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
                                 }
                             } else {
                                 if (modifyListStr) {
-                                    console.log(`ALTER TABLE ${table.name} ${modifyListStr}`);
                                     await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
                                 }
                             }
@@ -53,7 +48,6 @@ class table_refresh {
                         if (table.query) {
                             queryFormat += `, ${table.query}`;
                         }
-                        console.log(`CREATE TABLE ${table.name} (${queryFormat});`);
                         await this.connection.connection_query(`CREATE TABLE ${table.name} (${queryFormat});`);
                     }
                 }
@@ -66,7 +60,6 @@ class table_refresh {
     }
 
     init(response, callBack) {
-        console.log('table');
         return this.refresh(response, callBack);
     }
 }
