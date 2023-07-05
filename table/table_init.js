@@ -12,6 +12,7 @@ class table_refresh {
                 for (let table of this.tables) {
                     console.log(`CALL tableCheck('${DBName}', '${table.name}')`);
                     const sqlInsert = await this.connection.connection_query(`CALL tableCheck('${DBName}', '${table.name}')`);
+                    console.log(sqlInsert);
                     if (sqlInsert) {
                         console.log(sqlInsert[0][0]['ALTER']);
                         if (sqlInsert[0][0]['ALTER'] === "ALTER") {
