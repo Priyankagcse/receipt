@@ -29,12 +29,15 @@ class table_refresh {
                                 fieldListStr = fieldListStr.replace(/.$/,"");
                                 modifyListStr = modifyListStr.replace(/.$/,"");
                                 if (fieldListStr) {
+                                    console.log(`ALTER TABLE ${table.name} ADD (${fieldListStr})`);
                                     await this.connection.connection_query(`ALTER TABLE ${table.name} ADD (${fieldListStr})`);
                                     if (modifyListStr) {
+                                        console.log(`ALTER TABLE ${table.name} ${modifyListStr}`);
                                         await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
                                     }
                                 } else {
                                     if (modifyListStr) {
+                                        console.log(`ALTER TABLE ${table.name} ${modifyListStr}`);
                                         await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
                                     }
                                 }
@@ -48,6 +51,7 @@ class table_refresh {
                             if (table.query) {
                                 queryFormat += `, ${table.query}`;
                             }
+                            console.log(`CREATE TABLE ${table.name} (${queryFormat});`);
                             await this.connection.connection_query(`CREATE TABLE ${table.name} (${queryFormat});`);
                         }
                     }
