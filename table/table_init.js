@@ -5,10 +5,11 @@ const Sp = require('../sprocs/sprocs_class/sproc_base');
 class table_refresh {
     constructor() {
         this.connection = new Sp();
+        this.tables = all_tables;
         this.init = this.init.bind(this);
         this.refresh = async(res = null, callBack) => {
             try {
-                for (let table of all_tables) {
+                for (let table of this.tables) {
                     console.log(`CALL tableCheck('${DBName}', '${table.name}')`);
                     const sqlInsert = await this.connection.connection_query(`CALL tableCheck('${DBName}', '${table.name}')`);
                     if (sqlInsert) {
