@@ -10,10 +10,10 @@ class table_refresh {
         this.refresh = async(res = null, callBack) => {
             try {
                 for (let table of this.tables) {
-                    console.log(`CALL tableCheck('${DBName}', '${table.name}')`);
-                    const sqlInsert = await this.connection.connection_query(`CALL tableCheck('${DBName}', '${table.name}')`);
-                    console.log(sqlInsert);
-                    if (sqlInsert) {
+                    // console.log(`(SELECT EXISTS (SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA LIKE '${DBName}' AND TABLE_NAME = '${table.name}'))`);
+                    const sqlInsert = await this.connection.connection_query(`SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA LIKE '${DBName}' AND TABLE_NAME = '${table.name}'`);
+                    console.log(sqlInsert.length);
+                    if (sqlInsert.length) {
                         console.log(sqlInsert[0][0]['ALTER']);
                         if (sqlInsert[0][0]['ALTER'] === "ALTER") {
                             console.log(`SHOW COLUMNS FROM ${table.name}`);
