@@ -35,24 +35,15 @@ class table_refresh {
                                 modifyListStr = modifyListStr.replace(/.$/,"");
                                 if (fieldListStr) {
                                     console.log(`ALTER TABLE ${table.name} ADD (${fieldListStr})`);
-                                    const sqlAlter = await this.connection.connection_query(`ALTER TABLE ${table.name} ADD (${fieldListStr})`);
-                                    if (sqlAlter) {
-                                        //
-                                    }
+                                    await this.connection.connection_query(`ALTER TABLE ${table.name} ADD (${fieldListStr})`);
                                     if (modifyListStr) {
                                         console.log(`ALTER TABLE ${table.name} ${modifyListStr}`);
-                                        const sqlModify = await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
-                                        if (sqlModify) {
-                                            //
-                                        }
+                                        await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
                                     }
                                 } else {
                                     if (modifyListStr) {
                                         console.log(`ALTER TABLE ${table.name} ${modifyListStr}`);
-                                        const sqlModify = await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
-                                        if (sqlModify) {
-                                            //
-                                        }
+                                        await this.connection.connection_query(`ALTER TABLE ${table.name} ${modifyListStr}`);
                                     }
                                 }
                             }
@@ -66,10 +57,7 @@ class table_refresh {
                                 queryFormat += `, ${table.query}`;
                             }
                             console.log(`CREATE TABLE ${table.name} (${queryFormat});`);
-                            const sqlCreate = await this.connection.connection_query(`CREATE TABLE ${table.name} (${queryFormat});`);
-                            if (sqlCreate) {
-                                //
-                            }
+                            await this.connection.connection_query(`CREATE TABLE ${table.name} (${queryFormat});`);
                         }
                     }
                 }
