@@ -12,6 +12,7 @@ class table_refresh {
                     console.log(`CALL tableCheck('${DBName}', '${table.name}')`);
                     const sqlInsert = await this.connection.connection_query(`CALL tableCheck('${DBName}', '${table.name}')`);
                     if (sqlInsert) {
+                        console.log(sqlInsert[0][0]['ALTER']);
                         if (sqlInsert[0][0]['ALTER'] === "ALTER") {
                             console.log(`SHOW COLUMNS FROM ${table.name}`);
                             const sqlColumns = await this.connection.connection_query(`SHOW COLUMNS FROM ${table.name}`);
@@ -80,7 +81,6 @@ class table_refresh {
 
     init(response, callBack) {
         console.log('table');
-        console.log(all_tables);
         return this.refresh(response, callBack);
     }
 }
