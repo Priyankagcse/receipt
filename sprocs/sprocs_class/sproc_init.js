@@ -23,6 +23,8 @@ class Stored_procedure_refresh {
             } catch(err) {
                 // console.log(`[sprocs][init] catch err: ${err.message}`);
             } finally {
+                console.log('callBack');
+                console.log(callBack);
                 callBack && callBack();
                 // console.log(`[sprocs][init] finally`);
             }
