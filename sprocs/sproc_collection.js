@@ -21,7 +21,7 @@ const INITIALREFRESH = {
                 SELECT * from spenttype st;
                 SELECT * from transfertype ty;
             END`
-    }
+}
 
 const GETRECEIPTRELATEDMASTER = {
     name: 'GETRECEIPTRELATEDMASTER',
